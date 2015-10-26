@@ -37,6 +37,69 @@
       +\left(\nabla \psi , h^3 p \nabla p\right) -\left\langle \psi, h^3 p \nabla p \centerdot \hat n \right\rangle
       = 0 \end{equation}$$
 
+    Each of the terms in equation \eqref{eq:3} are implemented as kernels:<br>
+    <ul>
+    <li>\(\left(\psi , 12 \mu \frac \partial {\partial t} (ph)\right) \to\) CompressibleIsothermalTimeDerivative (not currently implemented) </li>
+    <li>\(-\left(\nabla \psi, 6\mu h p \vec V\right) \to\) CompressibleIsothermalShearFlow</li>
+    <li>\(\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle \to\) CompressibleIsothermalShearFlowDG</li>
+    <li>\(\left(\nabla \psi , h^3 p \nabla p\right) \to\) CompressibleIsothermalPressureFlow</li>
+    <li>\(-\left\langle \psi, h^3 p \nabla p \centerdot \hat n \right\rangle \to \) CompressibleIsothermalPressureFlowDG</li>
+    </ul>
+  </p>
+  <h2>CompressibleIsothermalTimeDerivative</h2>
+  <p>Not currently implemented</p>
+  <h2>CompressibleIsothermalShearFlow</h2>
+  <p>
+    $$ \begin{equation} \label{eq:4}
+    R_i(p_h) = -\left(\nabla \psi_i, 6\mu h p_h \vec V\right)
+    \end{equation}$$
+
+    $$ \begin{equation} \label{eq:5}
+    J_{ij}(p_h) = -\left(\nabla \psi_i, 6\mu h \phi_j \vec V\right)
+    \end{equation}$$
+
+  </p>
+  <h2>CompressibleIsothermalShearFlowDG</h2>
+  <p>
+    The term this dgkernel is responsible for computing <br>
+    \(\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle = \left\langle \psi,f^* \right\rangle  \) <br>
+    This term is a surface term.  At the boundary seperating two elements, the values on the nodes are defined for both elements.
+    Some decision must be made to construct a single flux, \(f^*\), which will link the two elements.  In this implementation, 
+    \(f^*\) is chosen to be the Lax-Friedrichs flux.
+    
+    $$ \begin{equation} \label{eq:6}
+    f_{elem}^*= 6 \mu h \vec V \frac {p_{elem} + p_{neighbor}} 2 \centerdot \hat n_{elem}
+     + \frac 1 2 \left|6 _mu _h \vec V \right| \centerdot \hat n_{elem}\left(p_{elem}-p_{neighbor}\right)
+    \end{equation}$$
+
+    *I'm seeking feedback on \eqref{eq:6}. I followed Hesthaven and Warburton in their Lax-Friedrich flux:
+
+    $$ \begin{equation} \label{eq:7}
+    f^{LF}(a,b) = \frac {f(a) + f(b)} 2 + \frac C 2 \hat n \centerdot (a - b)
+    \end{equation}$$
+
+    It seems like taking the absolute value of \(\vec V\) destroys some important information.  Should I use
+    this:
+
+    $$ \begin{equation} \label{eq:8}
+    f^* = \{\{ f_h(\mathbf u_h)\}\} + \frac C 2 [[\mathbf u_h]]
+    \end{equation}$$
+
+    $$ \begin{equation} \label{eq:9}
+    C = max_u \left| \lambda\left(\hat n \centerdot \frac {\partial \mathbf f} {\partial \mathbf u} \right) \right|
+    \end{equation}$$
+
+    and include the components of \(\vec V\) and \(p\) as components of \( \mathbf {u}  \)?  <br>
+    Also, what if \( (\hat n \centerdot \frac {\partial \mathbf f} {\partial \mathbf u} ) \) is not square?
+
+  </p>
+  <h2>CompressibleIsothermalPressureFlow</h2>
+  <p>
+    Once upon a time there was an equation...
+  </p>
+  <h2>CompressibleIsothermalPressureFlowDG</h2>
+  <p>
+    Once upon a time there was an equation...
   </p>
 </body>
 </html>
