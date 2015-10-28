@@ -32,14 +32,20 @@
    
     
     $$ \begin{equation} \label{eq:3} 
-      \left(\psi , 12 \mu \frac \partial {\partial t} (ph)\right) 
+      \left(\psi, 12 \mu h \frac {\partial p} {\partial t} \right)
+      +\left(\psi, 12 \mu p \frac {\partial h} {\partial t} \right)
       -\left(\nabla \psi, 6\mu h p \vec V\right) +\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle
       +\left(\nabla \psi , h^3 p \nabla p\right) -\left\langle \psi, h^3 p \nabla p \centerdot \hat n \right\rangle
       = 0 \end{equation}$$
 
     Each of the terms in equation \eqref{eq:3} are implemented as kernels:<br>
     <ul>
-    <li>\(\left(\psi , 12 \mu \frac \partial {\partial t} (ph)\right) \to\) CompressibleIsothermalTimeDerivative (not currently implemented) </li>
+    <li>\(\left(\psi , 12 \mu h \frac {\partial p} {\partial t} \right) \to\)
+      CompressibleIsothermalPTimeDerivative (not currently implemented) 
+    </li>
+    <li>\(\left(\psi , 12 \mu p \frac {\partial h} {\partial t} \right) \to\)
+      CompressibleIsothermalHTimeDerivative (not currently implemented)
+    </li>
     <li>\(-\left(\nabla \psi, 6\mu h p \vec V\right) \to\) CompressibleIsothermalShearFlow</li>
     <li>\(\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle \to\) CompressibleIsothermalShearFlowDG</li>
     <li>\(\left(\nabla \psi , h^3 p \nabla p\right) \to\) CompressibleIsothermalPressureFlow</li>
