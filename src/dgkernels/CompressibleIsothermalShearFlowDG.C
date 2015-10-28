@@ -41,16 +41,25 @@ CompressibleIsothermalShearFlowDG::CompressibleIsothermalShearFlowDG(const Input
 Real
 CompressibleIsothermalShearFlowDG::computeQpResidual(Moose::DGResidualType type)
 {
-  Real r=0;
+  Real r;
+
+  if (_v*_normals[_qp]>=0)
+  {
+    r = _test[_i][_qp]*6.0*_mu[_qp]*_h[_qp]*_u[_qp]*_v*_normals[_qp];
+  }
+  else
+  {
+    r = _test[_i][_qp]*6.0*_mu[_qp]*_h[_qp]*_u_neighbor[_qp]*_v*_normals[_qp];
+  }
 
   switch (type)
   {
   case Moose::Element:
-    r =  _test[_i][_qp]*3.0*_mu[_qp]*_h[_qp]*_v * ( (_u[_qp] + _u_neighbor[_qp] ) + _alpha * ( _u[_qp] - _u_neighbor[_qp] ) ) * _normals[_qp];
+    r = r;
     break;
 
   case Moose::Neighbor:
-    r = -_test_neighbor[_i][_qp]*3.0*_mu[_qp]*_h[_qp]*_v * ( (_u[_qp] + _u_neighbor[_qp] ) + _alpha * ( _u_neighbor[_qp] - _u[_qp] ) ) * _normals[_qp];
+    r = -r;
     break;
   }
 
@@ -61,23 +70,50 @@ Real
 CompressibleIsothermalShearFlowDG::computeQpJacobian(Moose::DGJacobianType type)
 {
   Real r=0;
-
   switch (type)
   {
   case Moose::ElementElement:
-    r = _test[_i][_qp]*3.0*_mu[_qp]*_h[_qp]*_v*_phi[_j][_qp]*(1+_alpha)*_normals[_qp];
+    if (_v*_normals[_qp]>=0)
+    {
+      r = _test[_i][_qp]*6.0*_mu[_qp]*_h[_qp]*_phi[_j][_qp]*_v*_normals[_qp];
+    }
+    else 
+    {
+      r = 0;
+    }
     break;
 
   case Moose::ElementNeighbor:
-    r = _test[_i][_qp]*3.0*_mu[_qp]*_h[_qp]*_v*_phi_neighbor[_j][_qp]*(1-_alpha)*_normals[_qp];
+    if (_v*_normals[_qp]>=0)
+    {
+      r = 0;
+    }
+    else
+    {
+      r = _test[_i][_qp]*6.0*_mu[_qp]*_h[_qp]*_phi_neighbor[_j][_qp]*_v*_normals[_qp];
+    }
     break;
 
   case Moose::NeighborElement:
-    r =-_test_neighbor[_i][_qp]*3.0*_mu[_qp]*_h[_qp]*_v*_phi[_j][_qp]*(1+_alpha)*_normals[_qp];
+    if (_v*_normals[_qp]>=0)
+    {
+      r = -_test[_i][_qp]*6.0*_mu[_qp]*_h[_qp]*_phi[_j][_qp]*_v*_normals[_qp];
+    }
+    else
+    {
+      r = 0;
+    }
     break;
 
   case Moose::NeighborNeighbor:
-    r =-_test_neighbor[_i][_qp]*3.0*_mu[_qp]*_h[_qp]*_v*_phi_neighbor[_j][_qp]*(1-_alpha)*_normals[_qp];
+    if (_v*_normals[_qp]>=0)
+    {
+      r = 0;
+    }
+    else
+    {
+      r = -_test[_i][_qp]*6.0*_mu[_qp]*_h[_qp]*_phi_neighbor[_j][_qp]*_v*_normals[_qp];
+    }
     break;
   }
 

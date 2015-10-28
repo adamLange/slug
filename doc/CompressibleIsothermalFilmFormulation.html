@@ -65,41 +65,57 @@
     \(\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle = \left\langle \psi,f^* \right\rangle  \) <br>
     This term is a surface term.  At the boundary seperating two elements, the values on the nodes are defined for both elements.
     Some decision must be made to construct a single flux, \(f^*\), which will link the two elements.  In this implementation, 
-    \(f^*\) is chosen to be the Lax-Friedrichs flux.
-    
+    \(f^*\) is chosen to be the upwind flux.
+    <br>
+    If \( \vec V \centerdot \hat n_{elem} \ge 0 \):
     $$ \begin{equation} \label{eq:6}
-    f_{elem}^*= 6 \mu h \vec V \frac {p_{elem} + p_{neighbor}} 2 \centerdot \hat n_{elem}
-     + \frac 1 2 \left|6 _mu _h \vec V \right| \centerdot \hat n_{elem}\left(p_{elem}-p_{neighbor}\right)
+    f_{elem}^* = -f_{neighbor}^* = 6 \mu h p_{elem} \vec V \centerdot \hat n_{elem}
     \end{equation}$$
-
-    *I'm seeking feedback on \eqref{eq:6}. I followed Hesthaven and Warburton in their Lax-Friedrich flux:
 
     $$ \begin{equation} \label{eq:7}
-    f^{LF}(a,b) = \frac {f(a) + f(b)} 2 + \frac C 2 \hat n \centerdot (a - b)
+    R_{elem,i} = -R_{neighbor,i} =\left\langle \psi, 6 \mu h p_{elem} \vec V \centerdot \hat n_{elem} \right\rangle
     \end{equation}$$
-
-    It seems like taking the absolute value of \(\vec V\) destroys some important information.  Should I use
-    this:
-
+    
     $$ \begin{equation} \label{eq:8}
-    f^* = \{\{ f_h(\mathbf u_h)\}\} + \frac C 2 [[\mathbf u_h]]
+    \frac {\partial R_{elem,i}} {\partial p_{elem}} = 
+    -\frac {\partial R_{neighbor,i}} {\partial p_{elem}} = 
+    6.0 \mu h \phi_{elem} \vec V \centerdot \hat n_{elem}
     \end{equation}$$
 
     $$ \begin{equation} \label{eq:9}
-    C = max_u \left| \lambda\left(\hat n \centerdot \frac {\partial \mathbf f} {\partial \mathbf u} \right) \right|
+    \frac {\partial R_{elem,i}} {\partial p_{neighbor}} =
+    \frac {\partial R_{neighbor,i}} {\partial p_{neighbor}} = 0
     \end{equation}$$
 
-    and include the components of \(\vec V\) and \(p\) as components of \( \mathbf {u}  \)?  <br>
-    Also, what if \( (\hat n \centerdot \frac {\partial \mathbf f} {\partial \mathbf u} ) \) is not square?
+    Else:
+    $$ \begin{equation} \label{eq:10}
+    f_{elem}^* = -f_{neighbor}^* = 6 \mu h p_{neighbor} \vec V \centerdot \hat n_{elem}
+    \end{equation}$$
+
+    $$ \begin{equation} \label{eq:11}
+    R_{elem,i} = -R_{neighbor,i} =
+    \left\langle \psi, 6 \mu h p_{neighbor} \vec V \centerdot \hat n_{elem} \right\rangle
+    \end{equation}$$
+    
+    $$ \begin{equation} \label{eq:12}
+    \frac {\partial R_{elem,i}} {\partial p_{elem}} =
+    \frac {\partial R_{neighbor,i}} {\partial p_{elem}} = 0
+    \end{equation}$$
+
+    $$ \begin{equation} \label{eq:13}
+    \frac {\partial R_{elem,i}} {\partial p_{neighbor}} = 
+    -\frac {\partial R_{neighbor,i}} {\partial p_{neighbor}} = 
+    6.0 \mu h \phi_{neighbor} \vec V \centerdot \hat n_{elem}
+    \end{equation}$$
 
   </p>
   <h2>CompressibleIsothermalPressureFlow</h2>
   <p>
-    Once upon a time there was an equation...
+    This Kernel computes \(\left(\nabla \psi, h^3 p \nabla p \right)\).
   </p>
   <h2>CompressibleIsothermalPressureFlowDG</h2>
   <p>
-    Once upon a time there was an equation...
+    This DGKernel computes \(-\left\langle \psi, h^3 p \nabla p \centerdot \hat n \right\rangle\)
   </p>
 </body>
 </html>
