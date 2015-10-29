@@ -36,6 +36,7 @@
 #include "CompressibleIsothermalShearFlowDG.h"
 #include "CompressibleIsothermalPressureFlowDG.h"
 #include "CompressibleIsothermalPTimeDerivative.h"
+#include "CompressibleIsothermalShearInflowOutflowBC.h"
 
 template<>
 InputParameters validParams<SlugApp>()
@@ -93,6 +94,7 @@ SlugApp::registerObjects(Factory & factory)
   registerDGKernel(CompressibleIsothermalShearFlowDG);
   registerDGKernel(CompressibleIsothermalPressureFlowDG);
   registerKernel(CompressibleIsothermalPTimeDerivative);
+  registerBoundaryCondition(CompressibleIsothermalShearInflowOutflowBC);
 }
 
 // External entry point for dynamic syntax association

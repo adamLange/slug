@@ -38,7 +38,7 @@
       +\left(\nabla \psi , h^3 p \nabla p\right) -\left\langle \psi, h^3 p \nabla p \centerdot \hat n \right\rangle
       = 0 \end{equation}$$
 
-    Each of the terms in equation \eqref{eq:3} are implemented as kernels:<br>
+    Each of the terms in equation \eqref{eq:3} are implemented as Kernels, DGKernels, or BC's:<br>
     <ul>
     <li>\(\left(\psi , 12 \mu h \frac {\partial p} {\partial t} \right) \to\)
       CompressibleIsothermalPTimeDerivative
@@ -47,7 +47,10 @@
       CompressibleIsothermalHTimeDerivative (not currently implemented)
     </li>
     <li>\(-\left(\nabla \psi, 6\mu h p \vec V\right) \to\) CompressibleIsothermalShearFlow</li>
-    <li>\(\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle \to\) CompressibleIsothermalShearFlowDG</li>
+    <li>\(\left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle \to\)
+      CompressibleIsothermalShearFlowDG,
+      CompressibleIsothermalShearInflowOutflowBC
+    </li>
     <li>\(\left(\nabla \psi , h^3 p \nabla p\right) \to\) CompressibleIsothermalPressureFlow</li>
     <li>\(-\left\langle \psi, h^3 p \nabla p \centerdot \hat n \right\rangle \to \) CompressibleIsothermalPressureFlowDG</li>
     </ul>
@@ -113,6 +116,27 @@
     -\frac {\partial R_{neighbor,i}} {\partial p_{neighbor}} = 
     6.0 \mu h \phi_{neighbor} \vec V \centerdot \hat n_{elem}
     \end{equation}$$
+
+  </p>
+  <h2>CompressibleIsothermalShearInflowOutflowBC</h2>
+  <p>
+    This boundary condition computes the term \( \left\langle\psi,6\mu hp\vec V \centerdot \hat n \right\rangle \).
+  </p>
+  <p>
+    If \( \vec V \centerdot \hat n \gt 0 \):
+    $$ \begin{equation} \label{eq:14}
+      R_i = \left\langle \psi_i , 6 \mu h p_h \vec V \centerdot \hat n \right\rangle
+    \end{equation} $$
+    $$ \begin{equation} \label{eq:15}
+      J_{ij} = \left \langle \psi_i, 6 \mu h \phi_j \vec V \centerdot \hat n \right \rangle
+    \end{equation} $$
+    Else:
+    $$ \begin{equation} \label{eq:16}
+      R_i = \left\langle \psi_i , 6 \mu h p_{BC} \vec V \centerdot \hat n \right\rangle
+    \end{equation} $$
+    $$ \begin{equation} \label{eq:17}
+      J_{ij} = 0
+    \end{equation} $$
 
   </p>
   <h2>CompressibleIsothermalPressureFlow</h2>
