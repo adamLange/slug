@@ -34,7 +34,7 @@ CompressibleIsothermalShearFlowDG::CompressibleIsothermalShearFlowDG(const Input
     _alpha(getParam<Real>("alpha")),
     _mu(getMaterialPropertyByName<Real>("mu")),
     _h(coupledValue("h")),
-    _v(getParam<Real>("vel_surface"))
+    _v(getParam<RealVectorValue>("vel_surface"))
 {
 }
 
