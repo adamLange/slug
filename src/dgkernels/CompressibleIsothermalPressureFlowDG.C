@@ -72,11 +72,11 @@ CompressibleIsothermalPressureFlowDG::computeQpJacobian(Moose::DGJacobianType ty
     break;
 
   case Moose::NeighborElement:
-    r = _test_neighbor[_j][_qp]*(-0.5*pow(_h[_qp],3)*(_phi[_j][_qp]*_grad_u[_qp]+_u[_qp]*_grad_phi[_j][_qp])*_normals[_qp]+_tau*_phi[_j][_qp]);
+    r = _test_neighbor[_i][_qp]*(-0.5*pow(_h[_qp],3)*(_phi[_j][_qp]*_grad_u[_qp]+_u[_qp]*_grad_phi[_j][_qp])*_normals[_qp]+_tau*_phi[_j][_qp]);
     break;
 
   case Moose::NeighborNeighbor:
-    r = _test_neighbor[_j][_qp]*(-0.5*pow(_h[_qp],3)*(_phi_neighbor[_j][_qp]*_grad_u_neighbor[_qp]+_u_neighbor[_qp]*_grad_phi_neighbor[_j][_qp])*_normals[_qp]-_tau*_phi_neighbor[_j][_qp]);
+    r = _test_neighbor[_i][_qp]*(-0.5*pow(_h[_qp],3)*(_phi_neighbor[_j][_qp]*_grad_u_neighbor[_qp]+_u_neighbor[_qp]*_grad_phi_neighbor[_j][_qp])*_normals[_qp]-_tau*_phi_neighbor[_j][_qp]);
     break;
   }
 
