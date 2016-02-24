@@ -41,7 +41,7 @@ protected:
 protected:
 
   const MaterialProperty<Real>& _mu;
-  VariableValue & _h;
+  const VariableValue & _h;
 
 };
 
