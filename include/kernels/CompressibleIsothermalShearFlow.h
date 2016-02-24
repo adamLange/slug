@@ -43,7 +43,7 @@ protected:
 
   const MaterialProperty<Real>& _mu;
   RealVectorValue _v;
-  VariableValue & _h;
+  const VariableValue & _h;
 
 };
 

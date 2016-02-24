@@ -20,6 +20,7 @@
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
+#include "MooseSyntax.h"
 
 #include "CompressibleReynoldsPressure.h"
 #include "ReynoldsIdealGas.h"

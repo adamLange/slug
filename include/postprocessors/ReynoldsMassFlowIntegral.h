@@ -35,8 +35,8 @@ public:
 protected:
   virtual Real computeQpIntegral();
 
-  VariableValue & _m_dot_x;
-  VariableValue & _m_dot_y;
+  const VariableValue & _m_dot_x;
+  const VariableValue & _m_dot_y;
 };
 
 #endif // REYNOLDSMASSFLOWINTEGRAL_H

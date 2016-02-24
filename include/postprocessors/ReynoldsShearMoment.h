@@ -36,8 +36,8 @@ public:
 protected:
 
   virtual Real computeQpIntegral();
-  VariableValue & _sigma_zx;
-  VariableValue & _sigma_zy;
+  const VariableValue & _sigma_zx;
+  const VariableValue & _sigma_zy;
   const RealVectorValue & _point;
   const RealVectorValue & _axisIn;
   const RealVectorValue _axis;

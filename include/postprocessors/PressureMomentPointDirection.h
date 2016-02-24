@@ -35,7 +35,7 @@ public:
 protected:
   virtual Real computeQpIntegral();
 
-  VariableValue & _p;
+  const VariableValue & _p;
   const RealVectorValue _point;
   const RealVectorValue _axis_param;
   RealVectorValue  _axis;

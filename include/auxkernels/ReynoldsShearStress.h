@@ -38,8 +38,8 @@ protected:
   virtual Real computeValue();
 
   unsigned _component;
-  VariableGradient & _grad_p;
-  VariableValue & _h;
+  const VariableGradient & _grad_p;
+  const VariableValue & _h;
   const MaterialProperty<Real> & _mu;
   const RealVectorValue & _vel_surface;
 

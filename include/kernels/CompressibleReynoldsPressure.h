@@ -42,8 +42,8 @@ protected:
 
   const MaterialProperty<Real>& _mu;
   RealVectorValue _v;
-  VariableValue & _h;
-  VariableGradient & _grad_h;
+  const VariableValue & _h;
+  const VariableGradient & _grad_h;
 
 };
 

@@ -38,7 +38,7 @@ private:
   MaterialProperty<Real> & _mu;
   MaterialProperty<Real> & _rho;
   Real _T;
-  VariableValue & _p;
+  const VariableValue & _p;
 };
 
 #endif //REYNOLDSIDEALGAS_H
